@@ -1,0 +1,15 @@
+<project>
+  <groupId>edu.stonybrook.iacs</groupId>
+  <artifactId>hpcfbd-spark</artifactId>
+  <modelVersion>4.0.0</modelVersion>
+  <name>Spark Code for HPCfBD</name>
+  <packaging>jar</packaging>
+  <version>1.0</version>
+  <dependencies>
+    <dependency> <!-- Spark dependency -->
+      <groupId>org.apache.spark</groupId>
+      <artifactId>spark-core_2.10</artifactId>
+      <version>1.5.2</version>
+    </dependency>
+  </dependencies>
+</project>
