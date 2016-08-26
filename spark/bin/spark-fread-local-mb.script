@@ -1,0 +1,32 @@
+#!/bin/bash
+#SBATCH --job-name="setest-spark"
+#SBATCH --output="setest-spark.%j.%N.out"
+#SBATCH --partition=compute
+#SBATCH --ntasks-per-node=24
+#SBATCH -t 01:00:00
+export HADOOP_CONF_DIR=/home/$USER/cometcluster
+export WORKDIR=`pwd`
+module load hadoop
+module load spark
+myhadoop-configure.sh
+export PATH=/opt/hadoop/2.6.0/sbin:$PATH
+
+# Remove old Result
+rm $WORKDIR/local-freads/Result$1-$2
+
+
+srun -n $1 --ntasks-per-node=1 cp $WORKDIR/$3 /scratch/$USER/$SLURM_JOBID/$3
+srun -n $1 --ntasks-per-node=1 ls /scratch/$USER/$SLURM_JOBID/$3
+#start-all.sh
+start-dfs.sh
+start-yarn.sh
+
+
+spark-submit --class FileReadMicroBenchmark  --master yarn-cluster --num-executors $1 --executor-cores $2 --executor-memory 6g  hpcfbd-spark-1.0.jar file:///scratch/$USER/$SLURM_JOBID/$3 $WORKDIR/local-freads/Result$1-$2
+
+
+stop-yarn.sh
+stop-dfs.sh
+#stop-all.sh
+
+myhadoop-cleanup.sh

@@ -2,7 +2,7 @@
   <groupId>edu.stonybrook.iacs</groupId>
   <artifactId>hpcfbd-spark</artifactId>
   <modelVersion>4.0.0</modelVersion>
-  <name>Spark Code for HPCfBD</name>
+  <name>Spark Code for HPCfd</name>
   <packaging>jar</packaging>
   <version>1.0</version>
   <dependencies>

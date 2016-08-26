@@ -1,3 +1,7 @@
+/*
+ * HPCfBD Benchmark - COPYRIGHT 2016 IACS
+ */
+
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.Function;
@@ -7,15 +11,17 @@ import org.apache.spark.SparkConf;
 import java.io.*;
 import java.lang.String;
 
-public class AnswersCount {
+public class AnswersCountBenchmark {
 
     public static void main(String[] args) {
+
         //Start time
         long start_time = System.currentTimeMillis();
+
         //File pointer
         String logFile = args[0];
         //Initializing Spark
-        SparkConf conf = new SparkConf().setAppName("AnswersCount");
+        SparkConf conf = new SparkConf().setAppName("AnswersCountBenchmark");
         JavaSparkContext sc = new JavaSparkContext(conf);
 
         //Creating RDD from a file and setting number of tasks
@@ -53,19 +59,26 @@ public class AnswersCount {
                 Integer index_ans = s.indexOf(ans);
 
                 if (index_ans != -1) {
+
                     Integer ans_length = ans.length();
                     String val1 = "";
 
                     for (i = index_ans + ans_length; s.charAt(i) != '"'; i++) {
                         val1 = val1 + Character.toString(s.charAt(i));
                     }
-                    return Integer.parseInt(val1);
+
+                    Integer value_ans = Integer.parseInt(val1);
+
+                    return value_ans;
+
                 }
+
                 return 0;
+
             }
         });
 
-        //Average answer per question
+        //Avereage answer per question
         Double average;
 
         //Action on each element of RDD
@@ -77,14 +90,15 @@ public class AnswersCount {
             }
         });
 
-        //Action on number of elements with PostTypeId=1
+        //Action on number of elemets with PostTypeId=1
         long quesCount = post_1.count();
 
-        //Calculating the Average
+        //Caculating the Average
         average = sum * 1.0 / quesCount;
 
         //End time
         long end_time = System.currentTimeMillis();
+
 
         File output = new File(args[1]);
 
@@ -99,8 +113,10 @@ public class AnswersCount {
 
             writer.close();
         } catch (FileNotFoundException e) {
+
             e.printStackTrace();
         }
+
 
         //Stopping the server and clearing the routes
         sc.stop();

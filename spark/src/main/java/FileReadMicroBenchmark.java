@@ -1,3 +1,7 @@
+/*
+ * HPCfBD Benchmark - COPYRIGHT 2016 IACS
+ */
+
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -8,7 +12,12 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
 
+/**
+ *
+ * Created by hamid on 3/13/16.
+ */
 public class FileReadMicroBenchmark {
+    //        int partitionsNum = new Integer(args[2]);
     public static void main(String[] args) {
 
         //Start time
@@ -26,14 +35,17 @@ public class FileReadMicroBenchmark {
         //lines.sample(false, 0.01);
         JavaRDD<String> post_1 = lines.filter(new Function<String, Boolean>() {
             public Boolean call(String s) {
+
                 return false;
             }
         });
+
 
         post_1.count();
 
         //End time
         long end_time = System.currentTimeMillis();
+
 
         File output = new File(args[1]);
 
@@ -45,8 +57,10 @@ public class FileReadMicroBenchmark {
 
             writer.close();
         } catch (FileNotFoundException e) {
+
             e.printStackTrace();
         }
+
 
         //Stopping the server and clearing the routes
         sc.stop();
